@@ -17,7 +17,7 @@ const glyphs: Record<FeaturedGame['glyph'], string> = {
     .map((x, i) => `<path d="${starPath(x, 21, 18, 7.5)}" fill="currentColor" opacity="${i < 3 ? 1 : 0.35}"/>`)
     .join('')}</svg>`,
   lanes: `<svg viewBox="0 0 120 120"><path d="M26 94V26h68M26 94h68V26M26 94 94 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="94" r="11" fill="currentColor"/><circle cx="94" cy="26" r="11" fill="currentColor"/></svg>`,
-  blocks: `<svg viewBox="0 0 120 120"><g transform="rotate(-12 60 60)"><rect x="20" y="24" width="50" height="50" rx="6" fill="currentColor"/><rect x="58" y="60" width="40" height="40" rx="6" fill="currentColor" opacity=".55"/><rect x="72" y="16" width="28" height="28" rx="5" fill="none" stroke="currentColor" stroke-width="5"/></g></svg>`,
+  castle: `<svg viewBox="0 0 120 120"><path fill="currentColor" fill-rule="evenodd" d="M20 102V38h15v12h12V38h26v12h12V38h15v64ZM51 102V82a9 9 0 0 1 18 0v20Z"/></svg>`,
 };
 
 export function renderGames() {

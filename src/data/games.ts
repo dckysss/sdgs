@@ -8,7 +8,7 @@ export interface FeaturedGame {
   /** [warna atas, warna bawah] gradasi kartu */
   colors: [string, string];
   accent: string;
-  glyph: 'crosshair' | 'wanted' | 'blocks' | 'lanes';
+  glyph: 'crosshair' | 'wanted' | 'lanes' | 'castle';
 }
 
 /** Game utama yang paling sering dimainkan SDGS. */
@@ -44,14 +44,14 @@ export const featuredGames: FeaturedGame[] = [
     glyph: 'lanes',
   },
   {
-    name: 'Roblox',
-    short: 'RBLX',
-    genre: 'Sandbox · Multiplayer',
-    tagline: 'Dari obby sampai horror, semua dijabanin bareng.',
-    tags: ['Sandbox', 'User-generated', 'Cross-platform'],
-    colors: ['#3d8bff', '#0b1a3a'],
-    accent: '#d6e6ff',
-    glyph: 'blocks',
+    name: 'Clash of Clans',
+    short: 'COC',
+    genre: 'Strategy · Clan War',
+    tagline: 'Clan kami: Sunib Ganteng. War jalan terus, base tetap santai.',
+    tags: ['Clan: Sunib Ganteng', 'Strategy', 'Supercell'],
+    colors: ['#5aa832', '#10261a'],
+    accent: '#e3f7d2',
+    glyph: 'castle',
   },
 ];
 
@@ -59,4 +59,4 @@ export const featuredGames: FeaturedGame[] = [
  * Game lain yang pernah dimainkan — tinggal tambahkan nama di sini, contoh:
  * export const otherGames = ['Minecraft', 'Apex Legends', 'Rainbow Six Siege'];
  */
-export const otherGames: string[] = ['Black Myth: Wukong'];
+export const otherGames: string[] = ['Roblox', 'Black Myth: Wukong'];

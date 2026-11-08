@@ -482,6 +482,7 @@ main,
   background: rgba(6, 19, 24, 0.66);
   color: var(--cream);
   font: 700 0.88rem var(--font-body);
+  white-space: nowrap;
   cursor: pointer;
   transition: border-color 0.2s;
 }
@@ -901,6 +902,10 @@ p {
   margin: 0;
   font-size: 0.95rem;
   box-shadow: none;
+}
+
+.chips li:nth-child(3) .member__avatar--sm {
+  --c: #5b9dff;
 }
 
 .chips li:nth-child(2) .member__avatar--sm {
