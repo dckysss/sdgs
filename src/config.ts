@@ -11,8 +11,8 @@ export const config = {
      * Syarat: Server Settings → Widget → "Enable Server Widget" dinyalakan.
      */
     guildId: '',
-    /** Total member (dari channel "members-49"). Update manual kalau berubah. */
-    memberCount: 49,
+    /** Total member (sesuai profil server Discord). Update manual kalau berubah. */
+    memberCount: 55,
   },
   /**
    * Musik diputar lewat YouTube (bukan Spotify) karena embed Spotify tidak bisa diatur volumenya.
