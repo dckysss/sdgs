@@ -997,6 +997,16 @@ p {
   background: var(--gold);
 }
 
+/* acara yang belum terjadi: garis putus-putus */
+.tl--upcoming {
+  border: 2px dashed rgba(245, 184, 46, 0.55);
+  background: rgba(5, 17, 22, 0.72);
+}
+
+.tl--upcoming::before {
+  border-style: dashed;
+}
+
 .tl blockquote {
   margin: 12px 0 0;
   font-family: var(--font-display);
