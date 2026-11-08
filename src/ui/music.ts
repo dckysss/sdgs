@@ -8,6 +8,8 @@ interface YTPlayer {
   loadPlaylist(ids: string[]): void;
   setVolume(volume: number): void;
   getPlayerState(): number;
+  /** shortcut: getVideoData tidak ada di dokumentasi resmi YouTube, tapi stabil dipakai; kalau hilang, teks kembali ke "wave to earth" */
+  getVideoData?(): { title?: string };
 }
 type YTEvent = { target: YTPlayer; data: number };
 declare global {
@@ -59,6 +61,12 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
           onStateChange: (e: YTEvent) => {
             if (e.data === PLAYING) {
               setPlaying(true);
+              // judul track Topic sudah polos ("daisy."); judul dari channel resmi diawali "wave to earth - "
+              const title = e.target.getVideoData?.().title?.replace(/^wave to earth\s*-\s*/i, '') || 'wave to earth';
+              document.querySelectorAll<HTMLElement>('[data-now]').forEach((el) => {
+                el.textContent = `Lagi muter: ${title}`;
+                el.title = title;
+              });
               videos.forEach((v) => v.pauseVideo()); // jangan tabrakan suara dengan video SDGS Core
             } else if (e.data === PAUSED || e.data === ENDED) setPlaying(false);
           },
