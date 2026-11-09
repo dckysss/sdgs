@@ -5,6 +5,7 @@ import { createVinyl } from './vinyl';
 import { createTokens, type Token, type TokenAction } from './tokens';
 import { createFireflies, createStars } from './particles';
 import { createFireworks } from './fireworks';
+import { createWhispers } from './whispers';
 import { nightPalette, palette, SUN_DIR } from './palette';
 
 export interface SceneOptions {
@@ -118,6 +119,8 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
   // --- kamera mengikuti scroll ---
   let keys = cameraKeys(window.innerWidth / window.innerHeight);
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-cam]'));
+  const whispers = createWhispers(sections.map((s) => s.dataset.cam ?? ''), isMobile);
+  scene.add(whispers.group);
   let mids: number[] = [];
   const measure = () => {
     const maxCenter = document.documentElement.scrollHeight - window.innerHeight / 2;
@@ -249,6 +252,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
     const beat = Math.pow(0.5 + 0.5 * Math.cos(beatPhase), 6) * playing * (reduceMotion ? 0.3 : 1);
 
     computeDesired();
+    whispers.update(time, sectionFloat());
     parallaxSmooth.lerp(reduceMotion || isMobile ? parallax.set(0, 0) : parallax, 1 - Math.exp(-dt * 3));
     desiredPos.x += parallaxSmooth.x * 0.6;
     desiredPos.y += parallaxSmooth.y * 0.35;
