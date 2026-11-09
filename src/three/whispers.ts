@@ -6,6 +6,7 @@ const words: Array<{ text: string; section: string; pos: [number, number, number
   { text: 'tingkan tingkir', section: 'about', pos: [-2.2, 0.2, 4], phase: 0 },
   { text: 'rure', section: 'journey', pos: [3.5, 1.0, -3], phase: 0.1 },
   { text: 'rugi', section: 'journey', pos: [2.5, 0.8, 2], phase: 0.55 },
+  { text: 'pede gw, menang ini', section: 'games', pos: [7, 5, 0.8], phase: 0.75 },
   { text: 'nopel pek', section: 'music', pos: [-3.8, 1.2, -4], phase: 0.3 },
 ];
 
@@ -46,7 +47,7 @@ export function createWhispers(sectionNames: string[], narrow: boolean) {
     const material = new THREE.SpriteMaterial({ map: drawText(w.text), transparent: true, depthWrite: false, depthTest: false, opacity: 0 });
     const sprite = new THREE.Sprite(material);
     sprite.renderOrder = 10;
-    sprite.scale.set(narrow ? 3.6 : 4.8, narrow ? 0.9 : 1.2, 1);
+    sprite.scale.set(narrow ? 2.9 : 3.8, narrow ? 0.72 : 0.95, 1);
     group.add(sprite);
     return { ...w, sprite, material, index: sectionNames.indexOf(w.section) };
   });
