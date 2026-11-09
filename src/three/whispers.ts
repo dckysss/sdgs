@@ -47,7 +47,7 @@ export function createWhispers(sectionNames: string[], narrow: boolean) {
     const material = new THREE.SpriteMaterial({ map: drawText(w.text), transparent: true, depthWrite: false, depthTest: false, opacity: 0 });
     const sprite = new THREE.Sprite(material);
     sprite.renderOrder = 10;
-    sprite.scale.set(narrow ? 2.9 : 3.8, narrow ? 0.72 : 0.95, 1);
+    sprite.scale.set(narrow ? 2.4 : 3.2, narrow ? 0.6 : 0.8, 1);
     group.add(sprite);
     return { ...w, sprite, material, index: sectionNames.indexOf(w.section) };
   });
