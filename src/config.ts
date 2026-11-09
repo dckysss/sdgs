@@ -31,6 +31,7 @@ export const config = {
       { id: 'M7R7-qnTsFw', title: 'seasons', karbit: true },
       { id: 'QX2dqXr8mOU', title: 'love.' },
       { id: 'VJhN9D4SM_c', title: 'daisy.' },
+      { id: 'MSOd9osDhJg', title: 'annie.' },
       { id: 'xt_IlpwNAFo', title: 'light' },
       { id: 'Q-UZygeboOc', title: 'peach eyes' },
       { id: 'hSESOg8Fjh0', title: 'homesick' },
@@ -44,7 +45,6 @@ export const config = {
       { id: 'FWReVTxfzF0', title: 'wave' },
       { id: 'vMHpQH7pbjg', title: 'heaven and hell' }, // track rilis, bukan video klip
       { id: 'vbJVXtq4MC8', title: 'play with earth!' },
-      { id: 'MSOd9osDhJg', title: 'annie.' },
       { id: 'F-P7KPVxegY', title: 'cherry flavoured love inside your heart' },
       { id: 'UrvGKN-gKr8', title: 'everything comes and goes' },
       { id: '4hfH9sdLqQA', title: 'hyang' },
