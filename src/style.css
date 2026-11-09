@@ -1214,6 +1214,11 @@ p {
   color: var(--gold);
 }
 
+/* babak kedua cerita setelah kutipan pertama */
+.tl__then {
+  margin: 14px 0 0;
+}
+
 /* tombol soundboard asli Discord di kartu "Spike meledak" */
 .soundboard {
   display: flex;

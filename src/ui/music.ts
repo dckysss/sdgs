@@ -166,6 +166,7 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
   // Soundboard asli Join ae: putar klip pendek, musik dikecilkan sebentar supaya klipnya kedengaran
   document.querySelectorAll<HTMLButtonElement>('[data-sound]').forEach((b) => {
     const clip = new Audio(b.dataset.sound);
+    clip.volume = 0.6; // klip aslinya cukup keras
     const restore = () => {
       b.classList.remove('is-playing');
       playerP.then((p) => p.setVolume(slider?.valueAsNumber ?? 50), () => {});
