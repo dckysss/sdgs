@@ -64,29 +64,6 @@ function car() {
   return g;
 }
 
-/** Balok dengan tonjolan — buat Roblox. */
-function brick() {
-  const g = new THREE.Group();
-  const m = mat('#3d8bff', 0.2);
-  const cube = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), m);
-  const studGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.12, 16);
-  for (const [x, z] of [
-    [0.21, 0.21],
-    [-0.21, 0.21],
-    [0.21, -0.21],
-    [-0.21, -0.21],
-  ]) {
-    const s = new THREE.Mesh(studGeo, m);
-    s.position.set(x, 0.48, z);
-    g.add(s);
-  }
-  const mini = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.34, 0.34), mat('#f7efd8', 0.3));
-  mini.position.set(0.7, 0.55, 0.1);
-  mini.rotation.set(0.4, 0.6, 0.2);
-  g.add(cube, mini);
-  return g;
-}
-
 /** Stik game — simbol mabar. */
 function gamepad() {
   const g = new THREE.Group();
@@ -212,7 +189,6 @@ interface Orbit {
 const defs: Array<{ build: () => THREE.Group; label: string; action: TokenAction; orbit: Orbit }> = [
   { build: crystal, label: 'VALORANT', action: 'games', orbit: { radius: 4.6, height: 4.6, speed: 0.12, phase: 0.4, spin: new THREE.Vector3(0.2, 0.6, 0) } },
   { build: car, label: 'GTA V', action: 'games', orbit: { radius: 5.3, height: 1.7, speed: 0.1, phase: 2.4, spin: new THREE.Vector3(0, 0.5, 0.08) } },
-  { build: brick, label: 'ROBLOX', action: 'games', orbit: { radius: 4.3, height: 5.4, speed: 0.14, phase: 4.3, spin: new THREE.Vector3(0.4, 0.5, 0.2) } },
   { build: gamepad, label: 'MABAR DI JOIN AE', action: 'discord', orbit: { radius: 5.9, height: 3.4, speed: 0.09, phase: 1.3, spin: new THREE.Vector3(0.3, 0.4, 0.15) } },
   { build: cup, label: 'SANTAI DULU', action: 'chill', orbit: { radius: 3.9, height: 1.3, speed: 0.11, phase: 5.4, spin: new THREE.Vector3(0.1, 0.7, 0.05) } },
   { build: note, label: '♪ WAVE TO EARTH', action: 'music', orbit: { radius: 3.4, height: 5.6, speed: 0.16, phase: 3.2, spin: new THREE.Vector3(0, 0.8, 0.1) } },
