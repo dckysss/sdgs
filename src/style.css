@@ -28,6 +28,9 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   scrollbar-gutter: stable; /* lebar halaman tidak melompat saat scroll dikunci */
+  /* scrollbar tipis emas di atas latar gelap, menyatu dengan tema */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 184, 46, 0.45) var(--ink);
 }
 
 /* layer video terbuka → halaman di belakang tidak ikut ter-scroll */
