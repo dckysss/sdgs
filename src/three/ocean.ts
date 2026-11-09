@@ -3,7 +3,6 @@ import { palette, SUN_DIR } from './palette';
 
 const vertexShader = /* glsl */ `
   uniform float uTime;
-  uniform float uAmp;
   varying vec3 vWorld;
   varying vec3 vNormalW;
   varying float vCrest;
@@ -15,7 +14,7 @@ const vertexShader = /* glsl */ `
     float k = 2.0 * PI / w.w;
     float c = sqrt(9.8 / k);
     vec2 d = normalize(w.xy);
-    float s = w.z * fade * uAmp;
+    float s = w.z * fade;
     float f = k * (dot(d, p) - c * uTime * 0.35);
     float a = s / k;
     float sf = sin(f), cf = cos(f);
@@ -54,7 +53,6 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uSunDir;
   uniform vec3 uGlow;
   uniform float uTime;
-  uniform float uBeat;
   uniform float uFogNear;
   uniform float uFogFar;
   varying vec3 vWorld;
@@ -89,7 +87,7 @@ const fragmentShader = /* glsl */ `
 
     // pantulan cahaya piringan hitam di air
     float glow = exp(-length(vWorld.xz - vec2(0.0, 0.0)) * 0.22);
-    col += uGlow * glow * (0.05 + uBeat * 0.12);
+    col += uGlow * glow * 0.05;
 
     float foam = smoothstep(0.45, 0.8, vCrest) * (1.0 - smoothstep(20.0, 60.0, dist));
     col = mix(col, vec3(0.95, 0.88, 0.82), foam * 0.22);
@@ -116,8 +114,6 @@ export function createOcean(segments: number) {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
-      uAmp: { value: 1 },
-      uBeat: { value: 0 },
       uDeep: { value: palette.deep },
       uShallow: { value: palette.shallow },
       uTop: { value: palette.skyTop },
@@ -138,10 +134,8 @@ export function createOcean(segments: number) {
 
   return {
     mesh,
-    update(time: number, beat: number) {
+    update(time: number) {
       material.uniforms.uTime.value = time;
-      material.uniforms.uBeat.value = beat;
-      material.uniforms.uAmp.value = 1 + beat * 0.12;
     },
   };
 }

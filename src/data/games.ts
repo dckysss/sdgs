@@ -66,4 +66,5 @@ export const otherGames: string[] = [
   'Left 4 Dead 2',
   'PUBG',
   'Outlast',
+  'Minecraft',
 ];

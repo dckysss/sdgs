@@ -259,7 +259,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
 
     sky.update(time, camera);
     stars.update(time, camera);
-    ocean.update(time, beat);
+    ocean.update(time);
     fireflies.update(time, beat);
     tokens.update(time, dt, playing, hovered?.kind === 'token' ? hovered.token : null, reduceMotion);
     vinyl?.update(time, dt, playing, hovered?.kind === 'vinyl');

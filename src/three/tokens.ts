@@ -152,6 +152,55 @@ function note() {
   return g;
 }
 
+/** Minion — ikon server Discord Join ae. */
+function minion() {
+  const g = new THREE.Group();
+  const yellow = mat('#f7d23e', 0.2);
+  const denim = mat('#2f5fa8', 0.15);
+  const dark = mat('#2a2a2a', 0.05);
+
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.42, 0.6, 8, 20), yellow);
+  const overall = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.43, 0.42, 20), denim);
+  overall.position.y = -0.28;
+  const bottom = new THREE.Mesh(new THREE.SphereGeometry(0.43, 20, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), denim);
+  bottom.position.y = -0.49;
+  const bib = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.2, 0.06), denim);
+  bib.position.set(0, -0.02, 0.4);
+
+  // kacamata: tali + bingkai perak + mata
+  const strap = new THREE.Mesh(new THREE.CylinderGeometry(0.435, 0.435, 0.1, 20), dark);
+  strap.position.y = 0.22;
+  const goggle = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.14, 20), mat('#b9bcc2', 0.2));
+  goggle.rotation.x = Math.PI / 2;
+  goggle.position.set(0, 0.22, 0.4);
+  const eye = new THREE.Mesh(new THREE.CircleGeometry(0.15, 20), new THREE.MeshBasicMaterial({ color: '#ffffff' }));
+  eye.position.set(0, 0.22, 0.475);
+  const iris = new THREE.Mesh(new THREE.CircleGeometry(0.065, 16), new THREE.MeshBasicMaterial({ color: '#6b4a2b' }));
+  iris.position.set(0, 0.22, 0.48);
+  const pupil = new THREE.Mesh(new THREE.CircleGeometry(0.03, 12), new THREE.MeshBasicMaterial({ color: '#111111' }));
+  pupil.position.set(0, 0.22, 0.485);
+
+  const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.018, 6, 16, Math.PI), dark);
+  mouth.rotation.z = Math.PI;
+  mouth.position.set(0, -0.02, 0.43);
+
+  const armGeo = new THREE.CapsuleGeometry(0.06, 0.32, 4, 8);
+  for (const s of [-1, 1]) {
+    const arm = new THREE.Mesh(armGeo, yellow);
+    arm.position.set(s * 0.47, -0.12, 0);
+    arm.rotation.z = s * 0.45;
+    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.18, 10), denim);
+    leg.position.set(s * 0.15, -0.95, 0);
+    const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.08, 0.24), dark);
+    shoe.position.set(s * 0.15, -1.06, 0.04);
+    g.add(arm, leg, shoe);
+  }
+
+  g.add(body, overall, bottom, bib, strap, goggle, eye, iris, pupil, mouth);
+  g.scale.setScalar(0.8);
+  return g;
+}
+
 interface Orbit {
   radius: number;
   height: number;
@@ -168,6 +217,7 @@ const defs: Array<{ build: () => THREE.Group; label: string; action: TokenAction
   { build: cup, label: 'SANTAI DULU', action: 'chill', orbit: { radius: 3.9, height: 1.3, speed: 0.11, phase: 5.4, spin: new THREE.Vector3(0.1, 0.7, 0.05) } },
   { build: note, label: '♪ WAVE TO EARTH', action: 'music', orbit: { radius: 3.4, height: 5.6, speed: 0.16, phase: 3.2, spin: new THREE.Vector3(0, 0.8, 0.1) } },
   { build: note, label: '♪ WAVE TO EARTH', action: 'music', orbit: { radius: 6.4, height: 5.0, speed: 0.07, phase: 0.1, spin: new THREE.Vector3(0, -0.6, 0.1) } },
+  { build: minion, label: 'MINION JOIN AE', action: 'discord', orbit: { radius: 5.6, height: 3.9, speed: 0.08, phase: 0.9, spin: new THREE.Vector3(0, 0.35, 0) } },
 ];
 
 /** Benda-benda bertema game yang mengorbit piringan hitam. */
@@ -176,7 +226,8 @@ export function createTokens() {
   const tokens: Array<Token & { orbit: Orbit; hover: number; base: number }> = defs.map((d) => {
     const object = d.build();
     object.userData.tokenLabel = d.label;
-    object.rotation.set(Math.random() * 6, Math.random() * 6, 0);
+    // benda yang tidak berguling (spin.x = 0, mis. minion) mulai dalam posisi tegak
+    object.rotation.set(d.orbit.spin.x ? Math.random() * 6 : 0, Math.random() * 6, 0);
     group.add(object);
     return { object, label: d.label, action: d.action, orbit: d.orbit, hover: 0, base: object.scale.x };
   });
