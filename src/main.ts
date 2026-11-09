@@ -15,10 +15,7 @@ initReveal();
 
 let scene: SceneApi | null = null;
 const music = initMusic({
-  onChange: (p) => {
-    scene?.setPlaying(p);
-    if (p) enter(); // autoplay diizinkan browser → tidak perlu klik Login
-  },
+  onChange: (p) => scene?.setPlaying(p),
 });
 
 const tooltip = document.getElementById('tooltip')!;

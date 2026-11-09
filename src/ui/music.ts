@@ -5,7 +5,7 @@ import { scrollToId, toast } from './util';
 interface YTPlayer {
   playVideo(): void;
   pauseVideo(): void;
-  loadPlaylist(ids: string[], index?: number): void;
+  cuePlaylist(ids: string[], index?: number): void;
   playVideoAt(index: number): void;
   getPlaylistIndex(): number;
   setVolume(volume: number): void;
@@ -96,8 +96,8 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
         events: {
           onReady: (e: YTEvent) => {
             e.target.setVolume(slider?.valueAsNumber ?? 50);
-            // loadPlaylist langsung memutar (autoplay) mulai dari opener; urutan tetap sama dengan daftar lagu
-            e.target.loadPlaylist(ids, Math.max(0, ids.indexOf(first)));
+            // cue = siapkan tanpa memutar; musik baru jalan setelah user klik Login
+            e.target.cuePlaylist(ids, Math.max(0, ids.indexOf(first)));
             resolve(e.target);
           },
           onStateChange: (e: YTEvent) => {
