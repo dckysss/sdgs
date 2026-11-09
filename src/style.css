@@ -1214,6 +1214,54 @@ p {
   color: var(--gold);
 }
 
+/* tombol soundboard asli Discord di kartu "Spike meledak" */
+.soundboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.soundboard__label {
+  margin-right: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: 0 1.1em;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(247, 239, 216, 0.08);
+  color: var(--cream);
+  font: 700 0.95rem var(--font-body);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s,
+    transform 0.15s;
+}
+
+.sb:hover {
+  border-color: rgba(245, 184, 46, 0.6);
+  background: rgba(245, 184, 46, 0.12);
+}
+
+.sb:active {
+  transform: scale(0.97);
+}
+
+.sb.is-playing {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
 .tl__stat {
   display: inline-flex;
   align-items: center;

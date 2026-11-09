@@ -163,6 +163,22 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
 
   slider?.addEventListener('input', () => playerP.then((p) => p.setVolume(slider.valueAsNumber), () => {}));
 
+  // Soundboard asli Join ae: putar klip pendek, musik dikecilkan sebentar supaya klipnya kedengaran
+  document.querySelectorAll<HTMLButtonElement>('[data-sound]').forEach((b) => {
+    const clip = new Audio(b.dataset.sound);
+    const restore = () => {
+      b.classList.remove('is-playing');
+      playerP.then((p) => p.setVolume(slider?.valueAsNumber ?? 50), () => {});
+    };
+    clip.addEventListener('ended', restore);
+    b.addEventListener('click', () => {
+      clip.currentTime = 0;
+      b.classList.add('is-playing');
+      playerP.then((p) => p.setVolume((slider?.valueAsNumber ?? 50) * 0.2), () => {});
+      clip.play().catch(restore);
+    });
+  });
+
   const toggle = async () => {
     try {
       const p = await playerP;
