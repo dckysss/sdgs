@@ -995,6 +995,135 @@ p {
   margin-top: 14px;
 }
 
+/* ---------- video SDGS Core: poster + layer ---------- */
+.video-poster {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.video-poster img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.video-poster:hover img {
+  transform: scale(1.03);
+}
+
+.video-poster:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.video-poster .video-poster__play {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 6px 0 var(--gold-deep), 0 18px 34px -10px rgba(0, 0, 0, 0.6);
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease;
+}
+
+.video-poster__play::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 54%;
+  border-style: solid;
+  border-width: 13px 0 13px 21px;
+  border-color: transparent transparent transparent #1d1503;
+  transform: translate(-50%, -50%);
+}
+
+.video-poster:hover .video-poster__play {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.video-poster:active .video-poster__play {
+  transform: translate(-50%, calc(-50% + 4px));
+}
+
+.video-modal {
+  /* hampir memenuhi layar, tapi bukan fullscreen; tinggi dibatasi agar 16:9 + bar muat */
+  width: min(94vw, calc((92vh - 60px) * 16 / 9));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+}
+
+.video-modal::backdrop {
+  background: rgba(2, 8, 10, 0.86);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.video-modal[open] {
+  animation: video-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.video-modal[open]::backdrop {
+  animation: video-fade 0.28s ease;
+}
+
+/* fade saja: animasi scale membuat posisi tombol ✕ jatuh di subpixel dan lingkarannya "melompat" saat hover */
+@keyframes video-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes video-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.video-modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.video-modal__bar b {
+  font-weight: 400;
+}
+
+.video-modal__close {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid rgba(247, 239, 216, 0.3);
+  border-radius: 50%;
+  background: rgba(247, 239, 216, 0.08);
+  color: var(--cream);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  will-change: transform; /* layer sendiri: lingkaran & ✕ selalu dirender di posisi piksel yang sama saat hover */
+}
+
+.video-modal__close:hover {
+  background: rgba(247, 239, 216, 0.2);
+}
+
+.video-modal .player {
+  border-radius: 16px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+}
+
 .tl--key {
   border-color: rgba(245, 184, 46, 0.5);
 }

@@ -64,6 +64,17 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
     list?.appendChild(li);
     return b;
   });
+  // Video SDGS Core tampil sebagai layer di atas semua UI (top layer <dialog>), latar digelapkan lewat ::backdrop
+  const modal = document.querySelector<HTMLDialogElement>('[data-video-modal]');
+  document.querySelectorAll('[data-video-open]').forEach((b) =>
+    b.addEventListener('click', () => {
+      modal?.showModal();
+      videos.forEach((v) => v.playVideo());
+    }),
+  );
+  modal?.addEventListener('close', () => videos.forEach((v) => v.pauseVideo()));
+  modal?.addEventListener('click', (e) => e.target === modal && modal.close()); // klik area gelap = tutup
+
   const markCurrent = (i: number) => {
     const current = tracks[i];
     items.forEach((b, n) => b.toggleAttribute('aria-current', allTracks[n] === current));
@@ -117,20 +128,24 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
       });
 
       // Video lain di halaman (SDGS Core): saat diputar, musik dijeda.
-      document.querySelectorAll<HTMLElement>('[data-yt-video]').forEach((v) =>
-        videos.push(
+      document.querySelectorAll<HTMLElement>('[data-yt-video]').forEach(
+        (v) =>
           new YT.Player(v, {
             width: '100%',
             height: '100%',
             videoId: v.dataset.ytVideo,
             playerVars: { playsinline: 1, rel: 0 },
             events: {
+              // didaftarkan saat siap, karena playVideo/pauseVideo belum ada sebelum onReady
+              onReady: (e: YTEvent) => {
+                videos.push(e.target);
+                if (modal?.open) e.target.playVideo();
+              },
               onStateChange: (e: YTEvent) => {
                 if (e.data === PLAYING) playerP.then((p) => p.pauseVideo(), () => {});
               },
             },
           }),
-        ),
       );
     };
     const s = document.createElement('script');
