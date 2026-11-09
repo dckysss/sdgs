@@ -1823,6 +1823,10 @@ p {
 }
 
 @media (max-width: 860px) {
+  /* "panggung" langit malam setelah kartu terakhir: di HP kartu menutupi lebar layar, kembang api tampil di sini */
+  .timeline {
+    margin-bottom: 45vh;
+  }
   /* menu jadi strip geser di baris kedua, supaya 7 section tetap bisa dijangkau di HP */
   .nav__inner {
     flex-wrap: wrap;
@@ -1902,6 +1906,10 @@ p {
   .volume,
   .volume input {
     flex: 1;
+  }
+  /* judul lagu dapat baris sendiri; volume + tombol di baris kedua */
+  .now [data-now] {
+    flex: 1 1 calc(100% - 60px);
   }
   .squad__core {
     grid-template-columns: repeat(2, minmax(0, 1fr));

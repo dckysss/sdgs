@@ -4,7 +4,7 @@ const PERIOD = 3.2; // detik sampai satu ledakan diulang
 const LIFE = 1.8; // detik satu ledakan terlihat
 
 /** Kembang api tahun baru di atas laut — klimaks timeline (31 Desember). Semua gerak dihitung di GPU. */
-export function createFireworks(bursts: number, perBurst: number) {
+export function createFireworks(bursts: number, perBurst: number, xMin: number, xSpread: number) {
   const n = bursts * perBurst;
   const pos = new Float32Array(n * 3);
   const vel = new Float32Array(n * 3);
@@ -14,7 +14,7 @@ export function createFireworks(bursts: number, perBurst: number) {
   const dir = new THREE.Vector3();
 
   for (let b = 0; b < bursts; b++) {
-    const ox = 4 + Math.random() * 26; // langit kanan atas: kiri tertutup kartu timeline, tengah tertutup piringan
+    const ox = xMin + Math.random() * xSpread;
     const oy = 10 + Math.random() * 5;
     const oz = -22 - Math.random() * 12;
     const c = colors[b % colors.length];

@@ -85,7 +85,8 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
   const ocean = createOcean(isMobile ? 160 : 256);
   const fireflies = createFireflies(isMobile ? 120 : 240);
   const tokens = createTokens();
-  const fireworks = createFireworks(isMobile ? 5 : 8, isMobile ? 110 : 170);
+  // desktop: langit kanan atas (kiri tertutup kartu, tengah tertutup piringan); HP: tengah, karena bidang pandang sempit
+  const fireworks = isMobile ? createFireworks(5, 110, -8, 16) : createFireworks(8, 170, 4, 26);
   scene.add(sky.mesh, stars.points, ocean.mesh, fireflies.points, tokens.group, fireworks.points);
   stars.setPixelRatio(dpr);
   fireflies.setPixelRatio(dpr);

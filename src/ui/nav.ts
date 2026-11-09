@@ -47,7 +47,9 @@ export function initTimeline(onScene?: (night: number, finale: boolean) => void)
     const p = clamp((vh * 0.6 - r.top) / r.height);
     tl.style.setProperty('--p', String(p));
     // kembali senja setelah timeline lewat dari layar
-    onScene?.(p * clamp(r.bottom / (vh * 0.3)), !!finaleCard?.classList.contains('is-active'));
+    // finale: kartu upcoming di tengah, atau sudah lewat tapi langit di bawahnya masih terlihat (ruang kosong di HP)
+    const finale = !!finaleCard?.classList.contains('is-active') || (p >= 1 && r.bottom > vh * 0.15);
+    onScene?.(p * clamp(r.bottom / (vh * 0.3)), finale);
   };
   window.addEventListener('scroll', () => (raf ||= requestAnimationFrame(update)), { passive: true });
   update();
