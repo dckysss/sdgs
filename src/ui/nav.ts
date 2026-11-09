@@ -28,6 +28,33 @@ export function initNav() {
   document.querySelectorAll('main section[id]').forEach((s) => io.observe(s));
 }
 
+/** Timeline perjalanan: garis menyala mengikuti scroll, kartu di tengah layar aktif, tahun besar di latar. */
+export function initTimeline() {
+  const tl = document.querySelector<HTMLElement>('.timeline');
+  if (!tl) return;
+  const items = tl.querySelectorAll<HTMLElement>('.tl');
+  items.forEach((li) => {
+    const year = li.querySelector('.tl__when')?.textContent?.match(/\d{4}/);
+    if (year) li.dataset.year = year[0];
+  });
+
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const r = tl.getBoundingClientRect();
+    const p = (window.innerHeight * 0.6 - r.top) / r.height;
+    tl.style.setProperty('--p', String(Math.min(1, Math.max(0, p))));
+  };
+  window.addEventListener('scroll', () => (raf ||= requestAnimationFrame(update)), { passive: true });
+  update();
+
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.target.classList.toggle('is-active', e.isIntersecting)),
+    { rootMargin: '-42% 0px -42% 0px' },
+  );
+  items.forEach((li) => io.observe(li));
+}
+
 export function initReveal() {
   const els = document.querySelectorAll<HTMLElement>('.reveal');
   const io = new IntersectionObserver(

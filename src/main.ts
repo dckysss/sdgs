@@ -4,7 +4,7 @@ import { initMusic } from './ui/music';
 import { renderGames } from './ui/games';
 import { initExcuses } from './ui/excuses';
 import { initDiscord } from './ui/discord';
-import { initNav, initReveal } from './ui/nav';
+import { initNav, initReveal, initTimeline } from './ui/nav';
 import { scrollToId, toast } from './ui/util';
 
 renderGames();
@@ -12,6 +12,7 @@ initDiscord();
 initExcuses();
 initNav();
 initReveal();
+initTimeline();
 
 let scene: SceneApi | null = null;
 const music = initMusic({

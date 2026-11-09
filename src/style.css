@@ -961,17 +961,36 @@ p {
   top: 12px;
   bottom: 12px;
   width: 2px;
-  background: linear-gradient(var(--gold), rgba(245, 184, 46, 0.15));
+  background: rgba(245, 184, 46, 0.15);
+}
+
+/* garis yang "menyala" mengikuti scroll (--p di-set initTimeline) */
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(var(--gold), #ffe3a3);
+  box-shadow: 0 0 14px rgba(245, 184, 46, 0.85);
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
 }
 
 .tl {
   position: relative;
+  isolation: isolate;
   padding: 22px 26px;
+  transition:
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
 }
 
 .tl::before {
   content: '';
   position: absolute;
+  z-index: 2;
   left: -29px;
   top: 26px;
   width: 16px;
@@ -979,6 +998,63 @@ p {
   border-radius: 50%;
   background: var(--ink);
   border: 3px solid var(--gold);
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4),
+    box-shadow 0.5s ease,
+    background 0.5s ease;
+}
+
+/* tahun besar bergaris tipis di belakang isi kartu */
+.tl::after {
+  content: attr(data-year);
+  position: absolute;
+  z-index: -1;
+  right: 18px;
+  bottom: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 9vw, 6.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(245, 184, 46, 0.16);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color 0.5s ease;
+}
+
+/* kartu yang sedang di tengah layar */
+.tl.is-active {
+  border-color: rgba(245, 184, 46, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(245, 184, 46, 0.2),
+    0 30px 90px -30px rgba(245, 184, 46, 0.45);
+}
+
+.tl.is-active::before {
+  background: var(--gold);
+  transform: scale(1.25);
+  box-shadow:
+    0 0 0 6px rgba(245, 184, 46, 0.18),
+    0 0 26px rgba(245, 184, 46, 0.95);
+}
+
+.tl.is-active::after {
+  -webkit-text-stroke-color: rgba(245, 184, 46, 0.4);
+}
+
+/* masuk sinematik: dari blur + geser jadi tajam */
+.js .tl.reveal {
+  transform: translateX(-44px) scale(0.97);
+  filter: blur(10px);
+  transition:
+    opacity 1s ease,
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.js .tl.reveal.in {
+  transform: none;
+  filter: none;
 }
 
 .tl__when {
