@@ -2,7 +2,16 @@ export function initNav() {
   const nav = document.getElementById('nav');
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav__links a'));
 
-  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 24);
+  let lastY = window.scrollY;
+  const onScroll = () => {
+    const y = window.scrollY;
+    nav?.classList.toggle('scrolled', y > 24);
+    // sembunyi saat scroll ke bawah, muncul lagi saat ke atas; ambang 4px biar tidak kedip karena scroll halus
+    if (Math.abs(y - lastY) > 4) {
+      nav?.classList.toggle('nav--hidden', y > lastY && y > 80);
+      lastY = y;
+    }
+  };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 

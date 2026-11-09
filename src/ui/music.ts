@@ -5,11 +5,11 @@ import { scrollToId, toast } from './util';
 interface YTPlayer {
   playVideo(): void;
   pauseVideo(): void;
-  loadPlaylist(ids: string[]): void;
+  loadPlaylist(ids: string[], index?: number): void;
+  playVideoAt(index: number): void;
+  getPlaylistIndex(): number;
   setVolume(volume: number): void;
   getPlayerState(): number;
-  /** shortcut: getVideoData tidak ada di dokumentasi resmi YouTube, tapi stabil dipakai; kalau hilang, teks kembali ke "wave to earth" */
-  getVideoData?(): { title?: string };
 }
 type YTEvent = { target: YTPlayer; data: number };
 declare global {
@@ -26,6 +26,48 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
   const slider = document.querySelector<HTMLInputElement>('[data-volume]');
   const videos: YTPlayer[] = [];
   let playing = false;
+  const { openers } = config.music;
+  const allTracks: readonly { id: string; title: string; karbit?: boolean }[] = config.music.tracks;
+  // Lagu karbit cuma tampil dicoret, tidak masuk playlist → index playlist = index di `tracks`
+  const tracks = allTracks.filter((t) => !t.karbit);
+
+  // Daftar lagu: klik = langsung putar lagu itu, playlist lanjut dari situ
+  const list = document.querySelector<HTMLOListElement>('[data-tracks]');
+  const items = allTracks.map((t, n) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'track';
+    const no = document.createElement('span');
+    no.className = 'track__no';
+    no.textContent = String(n + 1).padStart(2, '0');
+    const title = document.createElement('span');
+    title.className = 'track__title';
+    title.textContent = t.title;
+    b.append(no, title);
+    if (t.karbit) {
+      const note = document.createElement('span');
+      note.className = 'track__note';
+      note.textContent = 'karbit lu?';
+      b.append(note);
+      b.disabled = true;
+    } else {
+      const i = tracks.indexOf(t);
+      b.addEventListener('click', () =>
+        playerP.then(
+          (p) => p.playVideoAt(i),
+          () => toast('Player YouTube gagal dimuat. Coba buka langsung di YouTube ya.'),
+        ),
+      );
+    }
+    li.appendChild(b);
+    list?.appendChild(li);
+    return b;
+  });
+  const markCurrent = (i: number) => {
+    const current = tracks[i];
+    items.forEach((b, n) => b.toggleAttribute('aria-current', allTracks[n] === current));
+  };
 
   const setPlaying = (p: boolean) => {
     if (p === playing) return;
@@ -42,8 +84,8 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
   const playerP = new Promise<YTPlayer>((resolve, reject) => {
     const el = document.getElementById('yt-player');
     if (!el) return reject(new Error('no player element'));
-    const { openers, tracks } = config.music;
     const first = openers[Math.floor(Math.random() * openers.length)];
+    const ids = tracks.map((t) => t.id);
 
     window.onYouTubeIframeAPIReady = () => {
       const YT = window.YT!;
@@ -54,15 +96,16 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
         events: {
           onReady: (e: YTEvent) => {
             e.target.setVolume(slider?.valueAsNumber ?? 50);
-            // loadPlaylist langsung memutar (autoplay); `videoId` + `playlist` tidak dipakai karena YouTube mengabaikan videoId-nya
-            e.target.loadPlaylist([first, ...tracks.filter((id) => id !== first)]);
+            // loadPlaylist langsung memutar (autoplay) mulai dari opener; urutan tetap sama dengan daftar lagu
+            e.target.loadPlaylist(ids, Math.max(0, ids.indexOf(first)));
             resolve(e.target);
           },
           onStateChange: (e: YTEvent) => {
             if (e.data === PLAYING) {
               setPlaying(true);
-              // judul track Topic sudah polos ("daisy."); judul dari channel resmi diawali "wave to earth - "
-              const title = e.target.getVideoData?.().title?.replace(/^wave to earth\s*-\s*/i, '') || 'wave to earth';
+              const i = e.target.getPlaylistIndex();
+              markCurrent(i);
+              const title = tracks[i]?.title ?? 'wave to earth';
               document.querySelectorAll<HTMLElement>('[data-now]').forEach((el) => {
                 el.textContent = `Lagi muter: ${title}`;
                 el.title = title;

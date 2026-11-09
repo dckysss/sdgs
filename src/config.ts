@@ -19,43 +19,43 @@ export const config = {
    * Isinya ID video YouTube (bagian setelah "watch?v=" / "youtu.be/"). Semua sudah dicek bisa di-embed.
    */
   music: {
-    /** Lagu pertama dipilih acak dari sini */
-    openers: [
-      'Kpg-OVlruxU', // Intro + Bad (Official live) — channel @wavetoearth
-      'VJhN9D4SM_c', // daisy.
-      'QX2dqXr8mOU', // love.
-    ],
-    /** Sisa playlist: track rilis resmi dari channel "wave to earth - Topic" — tanpa short & video klip */
+    /** Lagu pertama dipilih acak dari ID ini (harus ada juga di `tracks`) */
+    openers: ['Kpg-OVlruxU', 'VJhN9D4SM_c', 'QX2dqXr8mOU'],
+    /**
+     * Urutan playlist sekaligus daftar lagu yang bisa dipilih di section Musik.
+     * Track rilis resmi "wave to earth - Topic", tanpa short & video klip.
+     * `karbit: true` = tampil dicoret & tidak bisa diputar (tidak masuk playlist). Versi rilis biasa "bad" sengaja tidak ada.
+     */
     tracks: [
-      'M7R7-qnTsFw', // seasons
-      'EAyY3_xWZYY', // bad
-      'QX2dqXr8mOU', // love.
-      'VJhN9D4SM_c', // daisy.
-      'xt_IlpwNAFo', // light
-      'Q-UZygeboOc', // peach eyes
-      'hSESOg8Fjh0', // homesick
-      'rmtOH_RVm-k', // evening glow
-      'hRjC3ek0Oxk', // sunny days
-      'dbXa26RwURE', // calla
-      'nF_7P3MDkx8', // pueblo
-      'yzgbi62XYtM', // nouvelle vague
-      'K45Ibt2xKj8', // surf.
-      '1fqqXIQL1cg', // gold
-      'FWReVTxfzF0', // wave
-      'vMHpQH7pbjg', // heaven and hell (track rilis, bukan video klip)
-      'vbJVXtq4MC8', // play with earth!
-      'MSOd9osDhJg', // annie.
-      'F-P7KPVxegY', // cherry flavoured love inside your heart
-      'UrvGKN-gKr8', // everything comes and goes
-      '4hfH9sdLqQA', // hyang
-      '9jIviHdH9F4', // holyland
-      'RmL3g0BbR1A', // so real
-      '4TuAIO5oRcU', // dried flower
-      'ZRiF6CgGaBk', // sunburn
-      'MdNSIgmBPbM', // akira
-      'BUwTIoZdZn4', // beck.
-      'DMYjvn8VLKo', // slow dive
-      'qeJFotOjCOM', // are you bored?
+      { id: 'Kpg-OVlruxU', title: 'Intro + Bad (live)' }, // channel @wavetoearth
+      { id: 'M7R7-qnTsFw', title: 'seasons', karbit: true },
+      { id: 'QX2dqXr8mOU', title: 'love.' },
+      { id: 'VJhN9D4SM_c', title: 'daisy.' },
+      { id: 'xt_IlpwNAFo', title: 'light' },
+      { id: 'Q-UZygeboOc', title: 'peach eyes' },
+      { id: 'hSESOg8Fjh0', title: 'homesick' },
+      { id: 'rmtOH_RVm-k', title: 'evening glow' },
+      { id: 'hRjC3ek0Oxk', title: 'sunny days' },
+      { id: 'dbXa26RwURE', title: 'calla' },
+      { id: 'nF_7P3MDkx8', title: 'pueblo' },
+      { id: 'yzgbi62XYtM', title: 'nouvelle vague' },
+      { id: 'K45Ibt2xKj8', title: 'surf.' },
+      { id: '1fqqXIQL1cg', title: 'gold' },
+      { id: 'FWReVTxfzF0', title: 'wave' },
+      { id: 'vMHpQH7pbjg', title: 'heaven and hell' }, // track rilis, bukan video klip
+      { id: 'vbJVXtq4MC8', title: 'play with earth!' },
+      { id: 'MSOd9osDhJg', title: 'annie.' },
+      { id: 'F-P7KPVxegY', title: 'cherry flavoured love inside your heart' },
+      { id: 'UrvGKN-gKr8', title: 'everything comes and goes' },
+      { id: '4hfH9sdLqQA', title: 'hyang' },
+      { id: '9jIviHdH9F4', title: 'holyland' },
+      { id: 'RmL3g0BbR1A', title: 'so real' },
+      { id: '4TuAIO5oRcU', title: 'dried flower' },
+      { id: 'ZRiF6CgGaBk', title: 'sunburn' },
+      { id: 'MdNSIgmBPbM', title: 'akira' },
+      { id: 'BUwTIoZdZn4', title: 'beck.' },
+      { id: 'DMYjvn8VLKo', title: 'slow dive' },
+      { id: 'qeJFotOjCOM', title: 'are you bored?' },
     ],
   },
 } as const;

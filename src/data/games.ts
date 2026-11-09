@@ -17,7 +17,7 @@ export const featuredGames: FeaturedGame[] = [
     name: 'Valorant',
     short: 'VALO',
     genre: 'Tactical FPS · 5v5',
-    tagline: 'Satu clutch bisa bikin voice channel teriak berjamaah.',
+    tagline: 'Menang kalah yang penting "de fak?"',
     tags: ['5v5', 'Tactical shooter', 'Riot Games'],
     colors: ['#ff4655', '#2a0a12'],
     accent: '#ffd5d9',
@@ -37,7 +37,7 @@ export const featuredGames: FeaturedGame[] = [
     name: 'Mobile Legends',
     short: 'MLBB',
     genre: 'MOBA · 5v5',
-    tagline: 'Rebutan Lord sampai lupa base tinggal satu tower.',
+    tagline: 'Kalah pantang menyerah, kalau menang ya surrend.',
     tags: ['5v5', 'MOBA', 'Moonton'],
     colors: ['#d9a441', '#1d1636'],
     accent: '#fff0cf',
@@ -59,4 +59,11 @@ export const featuredGames: FeaturedGame[] = [
  * Game lain yang pernah dimainkan — tinggal tambahkan nama di sini, contoh:
  * export const otherGames = ['Minecraft', 'Apex Legends', 'Rainbow Six Siege'];
  */
-export const otherGames: string[] = ['Roblox', 'Black Myth: Wukong'];
+export const otherGames: string[] = [
+  'Roblox',
+  'Black Myth: Wukong',
+  'Counter-Strike 2',
+  'Left 4 Dead 2',
+  'PUBG',
+  'Outlast',
+];
