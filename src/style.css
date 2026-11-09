@@ -27,6 +27,12 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable; /* lebar halaman tidak melompat saat scroll dikunci */
+}
+
+/* layer video terbuka → halaman di belakang tidak ikut ter-scroll */
+html:has(dialog[open]) {
+  overflow: hidden;
 }
 
 body {

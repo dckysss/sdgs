@@ -157,8 +157,6 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
   window.addEventListener(
     'pointermove',
     (e) => {
-      // layer video terbuka → scene diam, kalau tidak latar ikut bergeser dan tombol ✕ terlihat bergerak
-      if (document.querySelector('dialog[open]')) return;
       clientX = e.clientX;
       clientY = e.clientY;
       pointer.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);

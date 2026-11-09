@@ -64,7 +64,7 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
     list?.appendChild(li);
     return b;
   });
-  // Video SDGS Core tampil sebagai layer di atas semua UI (top layer <dialog>), latar digelapkan lewat ::backdrop
+  // Layer video SDGS Core (<dialog> di atas semua UI). Ada di sini karena player YouTube-nya dibuat di initMusic.
   const modal = document.querySelector<HTMLDialogElement>('[data-video-modal]');
   document.querySelectorAll('[data-video-open]').forEach((b) =>
     b.addEventListener('click', () => {
