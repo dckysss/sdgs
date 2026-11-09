@@ -1158,14 +1158,15 @@ p {
 
 .tl__stat {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.45em;
   margin-top: 12px;
-  padding: 0.3em 0.95em;
+  padding: 0.5em 1em;
   border-radius: 999px;
   background: rgba(245, 184, 46, 0.12);
   font-size: 0.9rem;
   font-weight: 700;
+  line-height: 1;
 }
 
 .tl__stat b {
