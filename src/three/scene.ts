@@ -4,7 +4,8 @@ import { createOcean } from './ocean';
 import { createVinyl } from './vinyl';
 import { createTokens, type Token, type TokenAction } from './tokens';
 import { createFireflies, createStars } from './particles';
-import { palette, SUN_DIR } from './palette';
+import { createFireworks } from './fireworks';
+import { nightPalette, palette, SUN_DIR } from './palette';
 
 export interface SceneOptions {
   onVinylClick: () => void;
@@ -15,6 +16,8 @@ export interface SceneOptions {
 export interface SceneApi {
   ready: Promise<void>;
   setPlaying(playing: boolean): void;
+  /** 0 = senja, 1 = malam; finale = kembang api tahun baru */
+  setNight(night: number, finale: boolean): void;
 }
 
 type CamKey = { pos: THREE.Vector3; target: THREE.Vector3 };
@@ -50,7 +53,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
     });
   } catch {
     document.documentElement.classList.add('no-webgl');
-    return { ready: Promise.resolve(), setPlaying() {} };
+    return { ready: Promise.resolve(), setPlaying() {}, setNight() {} };
   }
 
   const maxDpr = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 1.75);
@@ -64,7 +67,8 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
   const camera = new THREE.PerspectiveCamera(isMobile ? 55 : 45, window.innerWidth / window.innerHeight, 0.1, 1200);
 
   // --- lampu ---
-  scene.add(new THREE.HemisphereLight('#7c78c8', '#0d3a3f', 1.4));
+  const hemi = new THREE.HemisphereLight('#7c78c8', '#0d3a3f', 1.4);
+  scene.add(hemi);
   const sunLight = new THREE.DirectionalLight(palette.sun, 2.6);
   sunLight.position.copy(SUN_DIR).multiplyScalar(50);
   scene.add(sunLight);
@@ -81,9 +85,19 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
   const ocean = createOcean(isMobile ? 160 : 256);
   const fireflies = createFireflies(isMobile ? 120 : 240);
   const tokens = createTokens();
-  scene.add(sky.mesh, stars.points, ocean.mesh, fireflies.points, tokens.group);
+  const fireworks = createFireworks(isMobile ? 5 : 8, isMobile ? 110 : 170);
+  scene.add(sky.mesh, stars.points, ocean.mesh, fireflies.points, tokens.group, fireworks.points);
   stars.setPixelRatio(dpr);
   fireflies.setPixelRatio(dpr);
+  fireworks.setPixelRatio(dpr);
+
+  // warna senja asli; palette & SUN_DIR dipakai langsung oleh shader, jadi diubah di tempat
+  const dusk = Object.fromEntries(Object.keys(nightPalette).map((k) => [k, palette[k as keyof typeof nightPalette].clone()]));
+  const duskSunY = SUN_DIR.y;
+  let nightTarget = 0;
+  let night = 0;
+  let finaleTarget = 0;
+  let finale = 0;
 
   let vinyl: ReturnType<typeof createVinyl> | null = null;
   const ready = new Promise<void>((resolve) => {
@@ -250,6 +264,21 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
     vinyl?.update(time, dt, playing, beat, hovered?.kind === 'vinyl');
     beatLight.intensity = beat * 6 + playing * 1.5;
 
+    // senja → malam sepanjang timeline perjalanan
+    const prevNight = night;
+    night += (nightTarget - night) * (1 - Math.exp(-dt * 2));
+    if (Math.abs(night - prevNight) > 1e-4) {
+      for (const k of Object.keys(nightPalette) as (keyof typeof nightPalette)[]) {
+        palette[k].lerpColors(dusk[k], nightPalette[k], night);
+      }
+      SUN_DIR.set(0, duskSunY - 0.16 * night, -1).normalize();
+      sunLight.position.copy(SUN_DIR).multiplyScalar(50);
+      sunLight.intensity = 2.6 - 2 * night;
+      hemi.intensity = 1.4 - 0.7 * night;
+    }
+    finale += (finaleTarget - finale) * (1 - Math.exp(-dt * 1.5));
+    fireworks.update(time, finale);
+
     if (pointerDirty || hovered) {
       pointerDirty = false;
       updateHover();
@@ -268,6 +297,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
         renderer.setSize(window.innerWidth, window.innerHeight, false);
         stars.setPixelRatio(dpr);
         fireflies.setPixelRatio(dpr);
+        fireworks.setPixelRatio(dpr);
       }
       frameAcc = 0;
       frameCount = 0;
@@ -281,6 +311,10 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
     setPlaying(p: boolean) {
       playingTarget = p ? 1 : 0;
       if (hovered?.kind === 'vinyl') pointerDirty = true;
+    },
+    setNight(n: number, fin: boolean) {
+      nightTarget = n;
+      finaleTarget = fin && !reduceMotion ? 1 : 0;
     },
   };
 }

@@ -53,6 +53,7 @@ const fragmentShader = /* glsl */ `
       float c = fbm(cuv);
       float mask = smoothstep(0.52, 0.8, c) * smoothstep(0.01, 0.06, h) * (1.0 - smoothstep(0.22, 0.45, h));
       vec3 cc = mix(vec3(0.95, 0.55, 0.5), uSun, pow(sd, 3.0));
+      cc *= smoothstep(0.02, 0.35, dot(uHorizon, vec3(0.299, 0.587, 0.114))); // awan ikut gelap saat malam
       col = mix(col, cc * 0.9, mask * 0.45);
     }
 

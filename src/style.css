@@ -980,7 +980,6 @@ p {
 
 .tl {
   position: relative;
-  isolation: isolate;
   padding: 22px 26px;
   transition:
     border-color 0.5s ease,
@@ -1004,22 +1003,6 @@ p {
     background 0.5s ease;
 }
 
-/* tahun besar bergaris tipis di belakang isi kartu */
-.tl::after {
-  content: attr(data-year);
-  position: absolute;
-  z-index: -1;
-  right: 18px;
-  bottom: 6px;
-  font-family: var(--font-display);
-  font-size: clamp(3.6rem, 9vw, 6.5rem);
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(245, 184, 46, 0.16);
-  pointer-events: none;
-  transition: -webkit-text-stroke-color 0.5s ease;
-}
-
 /* kartu yang sedang di tengah layar */
 .tl.is-active {
   border-color: rgba(245, 184, 46, 0.6);
@@ -1034,10 +1017,6 @@ p {
   box-shadow:
     0 0 0 6px rgba(245, 184, 46, 0.18),
     0 0 26px rgba(245, 184, 46, 0.95);
-}
-
-.tl.is-active::after {
-  -webkit-text-stroke-color: rgba(245, 184, 46, 0.4);
 }
 
 /* masuk sinematik: dari blur + geser jadi tajam */

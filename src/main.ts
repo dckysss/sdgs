@@ -12,9 +12,9 @@ initDiscord();
 initExcuses();
 initNav();
 initReveal();
-initTimeline();
 
 let scene: SceneApi | null = null;
+initTimeline((night, finale) => scene?.setNight(night, finale));
 const music = initMusic({
   onChange: (p) => scene?.setPlaying(p),
 });
