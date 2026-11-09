@@ -262,8 +262,8 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions): Scen
     ocean.update(time, beat);
     fireflies.update(time, beat);
     tokens.update(time, dt, playing, hovered?.kind === 'token' ? hovered.token : null, reduceMotion);
-    vinyl?.update(time, dt, playing, beat, hovered?.kind === 'vinyl');
-    beatLight.intensity = beat * 6 + playing * 1.5;
+    vinyl?.update(time, dt, playing, hovered?.kind === 'vinyl');
+    beatLight.intensity = playing * 1.5; // cahaya hangat tetap, tanpa denyut
 
     // senja → malam sepanjang timeline perjalanan
     const prevNight = night;

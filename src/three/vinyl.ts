@@ -13,7 +13,6 @@ const faceVertex = /* glsl */ `
 const faceFragment = /* glsl */ `
   uniform float uRot;
   uniform vec3 uTint;
-  uniform float uBeat;
   varying vec2 vUv;
   void main() {
     vec2 p = (vUv - 0.5) * 2.0;
@@ -27,7 +26,7 @@ const faceFragment = /* glsl */ `
     vec3 col = vec3(0.018, 0.018, 0.022) + g * 0.01 + gap * 0.035;
     float lobe = pow(abs(cos(a - 0.9)), 26.0);
     float lobe2 = pow(abs(cos(a + 0.5)), 60.0);
-    col += zone * (uTint * lobe * (0.3 + uBeat * 0.25) + vec3(0.7, 0.75, 1.0) * lobe2 * 0.12);
+    col += zone * (uTint * lobe * 0.3 + vec3(0.7, 0.75, 1.0) * lobe2 * 0.12);
     col += zone * uTint * lobe * g * 0.08;
     col += vec3(0.08) * smoothstep(0.975, 0.995, r);
 
@@ -73,7 +72,7 @@ export function createVinyl(labelTexture: THREE.Texture) {
   disc.add(spinner);
 
   const faceMat = new THREE.ShaderMaterial({
-    uniforms: { uRot: { value: 0 }, uTint: { value: palette.sun.clone() }, uBeat: { value: 0 } },
+    uniforms: { uRot: { value: 0 }, uTint: { value: palette.sun.clone() } },
     vertexShader: faceVertex,
     fragmentShader: faceFragment,
   });
@@ -137,23 +136,21 @@ export function createVinyl(labelTexture: THREE.Texture) {
   return {
     object: root,
     hitTargets: [front, back, edge, labelFront, labelBack] as THREE.Object3D[],
-    update(time: number, dt: number, playing: number, beat: number, hovered: boolean) {
+    update(time: number, dt: number, playing: number, hovered: boolean) {
       // 33⅓ rpm ≈ 3.49 rad/detik saat musik jalan, pelan saat diam
       const target = 0.25 + playing * 3.24;
       spinSpeed += (target - spinSpeed) * (1 - Math.exp(-dt * 1.5));
       spinner.rotation.y -= spinSpeed * dt;
       faceMat.uniforms.uRot.value = spinner.rotation.y;
-      faceMat.uniforms.uBeat.value = beat;
 
       hover += ((hovered ? 1 : 0) - hover) * (1 - Math.exp(-dt * 8));
       root.position.y = BASE_Y + Math.sin(time * 0.8) * 0.15;
       disc.rotation.x = Math.PI / 2 - 0.16 + Math.sin(time * 0.6) * 0.04;
       disc.rotation.z = Math.sin(time * 0.5) * 0.06;
-      const s = 1 + hover * 0.04 + beat * 0.012;
+      const s = 1 + hover * 0.04;
       disc.scale.setScalar(s);
 
-      glowMat.opacity = 0.3 + beat * 0.3 + hover * 0.15;
-      glow.scale.setScalar(8 + beat * 1.2);
+      glowMat.opacity = 0.3 + hover * 0.15;
     },
   };
 }
