@@ -34,8 +34,14 @@ html {
 }
 
 /* layer video terbuka → halaman di belakang tidak ikut ter-scroll */
-html:has(dialog[open]) {
+html:has(dialog[open]),
+.js:not(.loaded) {
   overflow: hidden;
+}
+
+/* sebelum Login diklik: isi halaman di belakang loader tidak bisa difokus (Tab) atau ditekan */
+.js:not(.loaded) :is(.skip-link, .nav, main, .footer) {
+  visibility: hidden;
 }
 
 body {

@@ -152,7 +152,8 @@ export function initMusic(opts: { onChange: (playing: boolean) => void }) {
     s.src = 'https://www.youtube.com/iframe_api';
     s.async = true;
     s.onerror = () => {
-      el.innerHTML = `<div class="player__placeholder">Player YouTube gagal dimuat (cek koneksi / adblock).</div>`;
+      // semua player (musik + video SDGS Core), supaya tidak ada yang macet di "Memuat…"
+      document.querySelectorAll('.player__placeholder').forEach((p) => (p.textContent = 'Player YouTube gagal dimuat (cek koneksi / adblock).'));
       reject(new Error('youtube script failed'));
     };
     document.head.appendChild(s);
